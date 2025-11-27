@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Note } from './types';
 import NoteList from './components/NoteList';
 import AddNote from './components/AddNote';
@@ -21,10 +21,13 @@ function App() {
     };
 
     /* BUG 4: State Management - Wrong deletion logic */
-    const deleteNote = (id: string) => {
+    // Wrap deleteNote Function in useCallback to maintain stable reference across renders
+    // This prevents NoteList from re-rendering when App re-renders
+    const deleteNote = useCallback((id: string) => {
         // 🐛 This deletes by index, not by id!
-        setNotes(notes.filter((_, index) => index.toString() !== id));
-    };
+        // Use functional update to avoid stale closure issues
+        setNotes(prev => prev.filter((_, index) => index.toString() !== id));
+    }, [notes]); ;
 
     /* BUG 5: Storage - Not actually persisting to localStorage */
     const saveNotes = () => {

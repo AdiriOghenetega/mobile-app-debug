@@ -1,3 +1,4 @@
+import React from 'react';
 import { Note } from '../types';
 
 interface NoteListProps {
@@ -26,4 +27,6 @@ function NoteList({ notes, onDelete }: NoteListProps) {
     );
 }
 
-export default NoteList;
+// Wrap NoteList component in React.memo to prevent unnecessary re-renders
+// Component will only re-render when props actually change
+export default React.memo(NoteList);
