@@ -1,11 +1,29 @@
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Note } from './types';
 import NoteList from './components/NoteList';
 import AddNote from './components/AddNote';
 
 function App() {
-    const [notes, setNotes] = useState<Note[]>([]);
+    // Lazy initialization: Load from localStorage on mount
+    const [notes, setNotes] = useState(() => {
+        try {
+            const savedNotes = localStorage.getItem('notes');
+            return savedNotes ? JSON.parse(savedNotes) : [];
+        } catch (error) {
+            console.error('Failed to load notes:', error);
+            return [];
+        }
+    });
     const [input, setInput] = useState('');
+
+    // Auto-save: Persist to localStorage whenever notes change
+    useEffect(() => {
+        try {
+            saveNotes();
+        } catch (error) {
+            console.error('Failed to save notes:', error);
+        }
+    }, [notes]);
 
     const addNote = () => {
         if (!input.trim()) return;
@@ -13,7 +31,7 @@ function App() {
         const newNote: Note = {
             id: Date.now().toString(),
             text: input,
-            createdAt: new Date(), // Now correctly typed as Date
+            createdAt: new Date().toISOString(), // ISO string for serialization
         };
 
         setNotes([...notes, newNote]);
@@ -26,10 +44,10 @@ function App() {
     const deleteNote = useCallback((id: string) => {
         // 🐛 This deletes by index, not by id! - Fixed(Filter by note.id, not by array index)
         // Use functional update to avoid stale closure issues
-        setNotes(prev => prev.filter(note => note.id !== id));
+        setNotes((prev:Note[]) => prev.filter(note => note.id !== id));
     }, [notes]); ;
 
-    /* BUG 5: Storage - Not actually persisting to localStorage */
+    /* BUG 5: Storage - Not actually persisting to localStorage - fixed */
     const saveNotes = () => {
         // 🐛 This function is never called!
         localStorage.setItem('notes', JSON.stringify(notes));

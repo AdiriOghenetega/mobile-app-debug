@@ -1,6 +1,6 @@
-/* BUG 2: TypeScript Error - createdAt should be Date, not string */
+/* BUG 2: TypeScript Error - createdAt should be Date, not string - fixed */
 export interface Note {
     id: string;
     text: string;
-    createdAt: Date; // changed to Date type to match actual use case
+    createdAt: string; // changed to string for localStorage serialization
 }

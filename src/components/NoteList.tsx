@@ -6,7 +6,7 @@ interface NoteListProps {
     onDelete: (id: string) => void;
 }
 
-/* BUG 1: Performance - This component re-renders unnecessarily */
+/* BUG 1: Performance - This component re-renders unnecessarily - fixed */
 function NoteList({ notes, onDelete }: NoteListProps) {
     console.log('NoteList rendered'); // You'll see this spam the console
 
@@ -18,7 +18,7 @@ function NoteList({ notes, onDelete }: NoteListProps) {
                 notes.map((note) => (
                     <div key={note.id} className="note-item">
                         <p>{note.text}</p>
-                        <small>{note.createdAt.toLocaleDateString()}</small>
+                        <small>{new Date(note.createdAt).toLocaleDateString()}</small>
                         <button onClick={() => onDelete(note.id)}>Delete</button>
                     </div>
                 ))
