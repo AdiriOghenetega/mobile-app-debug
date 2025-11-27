@@ -13,20 +13,20 @@ function App() {
         const newNote: Note = {
             id: Date.now().toString(),
             text: input,
-            createdAt: new Date(), // 🐛 BUG 2: Type mismatch - interface expects string
+            createdAt: new Date(), // Now correctly typed as Date
         };
 
         setNotes([...notes, newNote]);
         setInput('');
     };
 
-    /* BUG 4: State Management - Wrong deletion logic */
+    /* BUG 4: State Management - Wrong deletion logic - fixed */
     // Wrap deleteNote Function in useCallback to maintain stable reference across renders
     // This prevents NoteList from re-rendering when App re-renders
     const deleteNote = useCallback((id: string) => {
-        // 🐛 This deletes by index, not by id!
+        // 🐛 This deletes by index, not by id! - Fixed(Filter by note.id, not by array index)
         // Use functional update to avoid stale closure issues
-        setNotes(prev => prev.filter((_, index) => index.toString() !== id));
+        setNotes(prev => prev.filter(note => note.id !== id));
     }, [notes]); ;
 
     /* BUG 5: Storage - Not actually persisting to localStorage */
@@ -45,7 +45,7 @@ function App() {
                 onAdd={addNote}
             />
 
-            {/* BUG 1: Performance - NoteList re-renders on every input change */}
+            {/* BUG 1: Performance - NoteList re-renders on every input change - Fixed */}
             <NoteList
                 notes={notes}
                 onDelete={deleteNote}
