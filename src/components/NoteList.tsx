@@ -1,0 +1,29 @@
+import { Note } from '../types';
+
+interface NoteListProps {
+    notes: Note[];
+    onDelete: (id: string) => void;
+}
+
+/* BUG 1: Performance - This component re-renders unnecessarily */
+function NoteList({ notes, onDelete }: NoteListProps) {
+    console.log('NoteList rendered'); // You'll see this spam the console
+
+    return (
+        <div className="note-list">
+            {notes.length === 0 ? (
+                <p className="empty-state">No notes yet. Add one above!</p>
+            ) : (
+                notes.map((note) => (
+                    <div key={note.id} className="note-item">
+                        <p>{note.text}</p>
+                        <small>{note.createdAt.toLocaleDateString()}</small>
+                        <button onClick={() => onDelete(note.id)}>Delete</button>
+                    </div>
+                ))
+            )}
+        </div>
+    );
+}
+
+export default NoteList;

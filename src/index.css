@@ -1,0 +1,87 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  background: #f5f5f5;
+  padding: 20px;
+}
+
+.app {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.add-note {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.add-note input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.add-note button {
+  padding: 12px 24px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* BUG 3: UI Bug - Using 100vh breaks on mobile */
+.note-list {
+  min-height: 100vh; /* 🐛 This causes issues on mobile browsers */
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.empty-state {
+  color: #999;
+  text-align: center;
+  padding: 40px;
+}
+
+.note-item {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.note-item p {
+  flex: 1;
+  color: #333;
+}
+
+.note-item small {
+  color: #999;
+  margin-right: 10px;
+}
+
+.note-item button {
+  padding: 6px 12px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
