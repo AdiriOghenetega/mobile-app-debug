@@ -2,5 +2,5 @@
 export interface Note {
     id: string;
     text: string;
-    createdAt: string; // 🐛 This should be Date, causes runtime errors
+    createdAt: Date; // changed to Date type to match actual use case
 }
