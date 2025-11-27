@@ -44,9 +44,9 @@ h1 {
   font-weight: 500;
 }
 
-/* BUG 3: UI Bug - Using 100vh breaks on mobile */
+/* BUG 3: UI Bug - Using 100vh breaks on mobile - fixed */
 .note-list {
-  min-height: 100vh; /* 🐛 This causes issues on mobile browsers */
+  min-height: 300px; /* Changed from 100vh - more mobile-friendly */
   background: white;
   border-radius: 8px;
   padding: 20px;
