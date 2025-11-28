@@ -4,6 +4,26 @@
   box-sizing: border-box;
 }
 
+:root {
+  --primary-color: #007bff;
+  --primary-hover: #0056b3;
+  --danger-color: #dc3545;
+  --danger-hover: #c82333;
+  --success-color: #28a745;
+  --success-hover: #218838;
+  --text-primary: #333;
+  --text-secondary: #666;
+  --text-muted: #999;
+  --border-color: #ddd;
+  --bg-primary: #f5f5f5;
+  --bg-secondary: #fff;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+  --transition: all 0.3s ease;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   background: #f5f5f5;
@@ -13,6 +33,50 @@ body {
 .app {
   max-width: 600px;
   margin: 0 auto;
+  animation: fadeIn 0.5s ease;
+}
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Header */
+.app-header {
+  text-align: center;
+  margin-bottom: 30px;
+  color: white;
+}
+
+.app-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.subtitle {
+  font-size: 1rem;
+  opacity: 0.9;
+  font-weight: 300;
+  color: #000;
 }
 
 h1 {
@@ -20,6 +84,7 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* Add Note Section */
 .add-note {
   display: flex;
   gap: 10px;
@@ -27,61 +92,232 @@ h1 {
 }
 
 .add-note input {
-  flex: 1;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  width: 80%;
+  padding: 14px 18px;
+  border: 2px solid transparent;
+  border-radius: var(--border-radius);
   font-size: 16px;
+  transition: var(--transition);
+  background: white;
+  box-shadow: var(--shadow-md);
+}
+
+.add-note input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
 
 .add-note button {
-  padding: 12px 24px;
-  background: #007bff;
+  padding: 14px 28px;
+  background: var(--primary-color);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 15px;
+  transition: var(--transition);
+  box-shadow: var(--shadow-md);
+  white-space: nowrap;
 }
 
+.add-note button:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.add-note button:active {
+  transform: translateY(0);
+}
+
+/* Note List */
 /* BUG 3: UI Bug - Using 100vh breaks on mobile - fixed */
 .note-list {
   min-height: 300px; /* Changed from 100vh - more mobile-friendly */
   background: white;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   padding: 20px;
+  box-shadow: var(--shadow-md);
+  animation: fadeIn 0.5s ease;
 }
 
 .empty-state {
-  color: #999;
+  color: var(--text-muted);
   text-align: center;
-  padding: 40px;
+  padding: 60px 20px;
+}
+
+.empty-state p {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.empty-subtitle {
+  font-size: 0.9rem;
+  opacity: 0.7;
 }
 
 .note-item {
-  padding: 15px;
-  border-bottom: 1px solid #eee;
+  padding: 18px;
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 12px;
+  transition: var(--transition);
+  animation: slideIn 0.3s ease;
 }
 
-.note-item p {
+.note-item:last-child {
+  border-bottom: none;
+}
+
+.note-item:hover {
+  background: var(--bg-primary);
+  border-radius: var(--border-radius);
+}
+
+.note-content {
   flex: 1;
-  color: #333;
+  min-width: 0;
 }
 
-.note-item small {
-  color: #999;
-  margin-right: 10px;
+.note-text {
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin-bottom: 8px;
+  word-wrap: break-word;
+  font-size: 15px;
+}
+
+.note-text mark {
+  background: #fff59d;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.note-date {
+  color: var(--text-muted);
+  font-size: 12px;
+  display: block;
 }
 
 .note-item button {
-  padding: 6px 12px;
-  background: #dc3545;
+  padding: 8px 12px;
+  background: var(--danger-color);
+  color: white;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: var(--transition);
+}
+
+.note-item button:hover {
+  
+  border-color: var(--danger-color);
+  transform: scale(1.05);
+}
+
+/* Search Bar */
+.search-bar {
+  background: white;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 20px;
+  animation: fadeIn 0.5s ease;
+}
+
+.search-input-wrapper {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 40px 12px 45px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 15px;
+  transition: var(--transition);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.clear-search-btn:hover {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.search-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sort-select {
+  flex: 1;
+  min-width: 150px;
+  padding: 10px 14px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 14px;
+  cursor: pointer;
+  background: white;
+  transition: var(--transition);
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.clear-all-btn {
+  padding: 10px 20px;
+  background: var(--danger-color);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--border-radius);
   cursor: pointer;
-  font-size: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.clear-all-btn:hover {
+  background: var(--danger-hover);
+  transform: translateY(-1px);
 }
